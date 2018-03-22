@@ -17,34 +17,79 @@ namespace TDL
         public Dashboard()
         {
             InitializeComponent();
+            this.CenterToScreen();
         } 
         
-        contactClass c = new contactClass(); 
+        contactClass c = new contactClass();
+        AddNotes ad = new AddNotes();
+        VIew vv = new VIew();
         
         private void btn_add_Click(object sender, EventArgs e)
         {
+            if (String.IsNullOrWhiteSpace(this.Title.Text) || string.IsNullOrWhiteSpace(this.Label.Text) || string.IsNullOrWhiteSpace(this.Description.Text))
+            {
+                MessageBox.Show("Please fill up the form!");
+            }
+            else { 
+            
             //Get the value from the input fields
             c.Title = Title.Text;
             c.Description = Description.Text;
             c.Label = Label.Text; 
 
             //Inserting Data into Database
-            bool success = c.Insert(c);
+            bool success = ad.Insert(c);
             if (success == true)
             {
-                //Successfully Inserted
-                MessageBox.Show("New Task Successfully Inserted");
+                ad.notification_success();
                 //Call the Clear Method Here
-                //Clear();
+                Clear();
             }
             else
             {
                 //Failed to Add Contact
-                MessageBox.Show("Failed to add New task. Try Again.");
+                ad.notification_failed();
             }
             //Load Data on Data Gridview
-            DataTable dt = c.Select();
-           // dgvContactList.DataSource = dt;
+            //DataTable dt = c.Select();
+           //dgvContactList.DataSource = dt;
+         }
+       }
+
+        void Clear()
+        {
+            Title.Text = String.Empty; 
+            Description.Text = String.Empty; 
+            Label  .Text = String.Empty; 
         }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+           
+            this.Hide();
+            vv.Show();
+            vv.Select();
+
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            Update d = new Update();
+            d.Show(); 
+            d.Selectt();
+        }
+
+        private void Description_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            Delete d = new Delete();
+            this.Hide();
+            d.Show();
+        } 
     }
 }

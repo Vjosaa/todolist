@@ -6,9 +6,7 @@ using System.Threading.Tasks;
 
 namespace TDL
 {
-    interface Interface_Add
+    class InsertNotes
     {
-        void notification_success();
-        void notification_failed();
     }
 }

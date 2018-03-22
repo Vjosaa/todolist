@@ -6,9 +6,11 @@ using System.Threading.Tasks;
 
 namespace TDL
 {
-    interface Interface_Add
+    public abstract class notesAbstract
     {
-        void notification_success();
-        void notification_failed();
+        public void notify(string user) { 
+        }
+        public void prioritise(int id) { 
+        }
     }
 }

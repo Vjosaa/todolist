@@ -17,12 +17,18 @@ namespace TDL
         public Form1()
         {
             InitializeComponent();
+            this.CenterToScreen();
         }
 
         private void btn_login_Click(object sender, EventArgs e)
         {
             c.login(tf_username.Text, tf_password.Text);
             this.Hide();
+        }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

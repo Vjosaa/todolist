@@ -13,6 +13,7 @@ namespace TDL.Resources
     {
         //Getter Setter Properties 
         //Acts as Data Carrier in Our Application
+        public int ID {get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
         public string Label { get; set; } 
@@ -46,50 +47,6 @@ namespace TDL.Resources
             }
             return dt;
         }
-
-        //Inserting DAta into Database
-        public bool Insert(contactClass c)
-        {
-            //Creating a default return type and setting its value to false
-            bool isSuccess = false;
-
-            //STep 1: Connect DAtabase
-            SqlConnection conn = new SqlConnection(myconnstrng);
-            try
-            {
-                //STep 2: Create a SQL Query to insert DAta
-                string sql = "INSERT INTO tblAdd (Title, Description, Label) VALUES (@Title, @Description, @Label)";
-                //Creating SQL Command using sql and conn
-                SqlCommand cmd = new SqlCommand(sql, conn);
-                //Create Parameters to add data
-                cmd.Parameters.AddWithValue("@Title", c.Title);
-                cmd.Parameters.AddWithValue("@Description", c.Description);
-                cmd.Parameters.AddWithValue("@Label", c.Label); 
-
-                //Connection Open Here
-                conn.Open();
-                int rows = cmd.ExecuteNonQuery();
-                //If the query runs successfully then the value of rows will be greater than zero else its value will be 0
-                if (rows > 0)
-                {
-                    isSuccess = true;
-                }
-                else
-                {
-                    isSuccess = false;
-                }
-            }
-            catch (System.Data.SqlClient.SqlException sqlException)
-            {
-                System.Windows.Forms.MessageBox.Show(sqlException.Message);
-            }
-            finally
-            {
-                conn.Close();
-            }
-            return isSuccess;
-        }
-
         //Method to update data in database from our application
         public bool Update(contactClass c)
         {
@@ -99,11 +56,12 @@ namespace TDL.Resources
             try
             {
                 //SQL to update data in our Database
-                string sql = "UPDATE tblAdd SET Title=@Title, Description=@Description, Label=@Label WHERE Title=@Title";
+                string sql = "UPDATE tblAdd SET Title=@Title, Description=@Description, Label=@Label WHERE ID=@ID";
 
                 //Creating SQL Command
                 SqlCommand cmd = new SqlCommand(sql, conn);
-                //Create Parameters to add value
+                //Create Parameters to add value 
+                cmd.Parameters.AddWithValue("@ID", c.ID);
                 cmd.Parameters.AddWithValue("@Title", c.Title);
                 cmd.Parameters.AddWithValue("@Description", c.Description);
                 cmd.Parameters.AddWithValue("@Label", c.Label); 
@@ -141,11 +99,11 @@ namespace TDL.Resources
             try
             {
                 //SQL To Delte DAta
-                string sql = "DELETE FROM tblAdd WHERE Title=@Title";
+                string sql = "DELETE FROM tblAdd WHERE ID=@ID";
 
                 //Creating SQL Command
                 SqlCommand cmd = new SqlCommand(sql, conn);
-                cmd.Parameters.AddWithValue("@Title", c.Title);
+                cmd.Parameters.AddWithValue("@ID", c.ID);
                 //Open Connection
                 conn.Open();
                 int rows = cmd.ExecuteNonQuery();
@@ -171,5 +129,59 @@ namespace TDL.Resources
             return isSuccess;
         }
 
+        //internal DataTable Selectt()
+        //{
+        //    throw new NotImplementedException();
+        //}
     }
 }
+
+
+
+
+
+
+
+
+////Inserting DAta into Database
+//public bool Insert(contactClass c)
+//{
+//    //Creating a default return type and setting its value to false
+//    bool isSuccess = false;
+
+//    //STep 1: Connect DAtabase
+//    SqlConnection conn = new SqlConnection(myconnstrng);
+//    try
+//    {
+//        //STep 2: Create a SQL Query to insert DAta
+//        string sql = "INSERT INTO tblAdd (Title, Description, Label) VALUES (@Title, @Description, @Label)";
+//        //Creating SQL Command using sql and conn
+//        SqlCommand cmd = new SqlCommand(sql, conn);
+//        //Create Parameters to add data
+//        cmd.Parameters.AddWithValue("@Title", c.Title);
+//        cmd.Parameters.AddWithValue("@Description", c.Description);
+//        cmd.Parameters.AddWithValue("@Label", c.Label); 
+
+//        //Connection Open Here
+//        conn.Open();
+//        int rows = cmd.ExecuteNonQuery();
+//        //If the query runs successfully then the value of rows will be greater than zero else its value will be 0
+//        if (rows > 0)
+//        {
+//            isSuccess = true;
+//        }
+//        else
+//        {
+//            isSuccess = false;
+//        }
+//    }
+//    catch (System.Data.SqlClient.SqlException sqlException)
+//    {
+//        System.Windows.Forms.MessageBox.Show(sqlException.Message);
+//    }
+//    finally
+//    {
+//        conn.Close();
+//    }
+//    return isSuccess;
+//}
